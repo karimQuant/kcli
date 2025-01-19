@@ -20,7 +20,10 @@ async def process_url(url: str) -> Optional[Document]:
     )
     try:
         async with AsyncWebCrawler(config=browser_config) as crawler:
-            result = await crawler.arun(url=url, config=run_config)
+            result = await crawler.arun(
+                url=url,
+                config=run_config,
+            )
             if not result or not result.markdown:
                 console.log(f"Failed to crawl or extract content from {url}")
                 return None

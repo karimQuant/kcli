@@ -40,9 +40,9 @@ class Embeddings:
 
         Args:
         ----
-            text: The input text to be split into chunks
-            chunk_size: The maximum size of each chunk in characters
-            overlap: The number of characters to overlap between chunks
+            text (str): The input text to be split into chunks
+            chunk_size (int): The maximum size of each chunk in characters
+            overlap (int): The number of characters to overlap between chunks
 
         Returns:
         -------
@@ -76,8 +76,8 @@ class Embeddings:
 
         Args:
         ----
-            texts: The list of texts to generate embeddings for
-            overlap: The number of characters to overlap between chunks
+            texts (List[str]): The list of texts to generate embeddings for
+            overlap (int): The number of characters to overlap between chunks
 
         Returns:
         -------

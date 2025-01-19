@@ -14,7 +14,7 @@ async def process_url(url: str) -> Optional[Document]:
 
     Args:
     ----
-        url: The URL to fetch and process into a document
+        url (str): The URL to fetch and process into a document
 
     Returns:
     -------

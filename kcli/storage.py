@@ -42,7 +42,8 @@ def configure() -> None:
 
 @dataclass
 class Document:
-    """Represents a document with its content and metadata."""
+    """A class representing a document with its metadata."""
+
     content: str
     url: Optional[str]
     title: str
@@ -152,7 +153,10 @@ class Storage:
         console.log(f"Document inserted: {doc_id}")
 
     def _brut_force_search(
-        self: "Storage", query: str, limit: int = 10, similarity_threshold: Optional[float] = None
+        self: "Storage",
+        query: str,
+        limit: int = 10,
+        similarity_threshold: Optional[float] = None,
     ) -> List[Document]:
         query_embedding = self.embeddings.create_embeddings(query)
         # Fetch all documents from SQLite
@@ -201,7 +205,10 @@ class Storage:
         ]
 
     def search(
-        self: "Storage", query: str, limit: int = 10, similarity_threshold: Optional[float] = None
+        self: "Storage",
+        query: str,
+        limit: int = 10,
+        similarity_threshold: Optional[float] = None,
     ) -> List[Document]:
         """Search for a query in the knowledge base."""
         if self.index.element_count > 100:
@@ -210,7 +217,10 @@ class Storage:
             return self._brut_force_search(query, limit, similarity_threshold)
 
     def _hnsw_search(
-        self: "Storage", query: str, limit: int = 10, similarity_threshold: Optional[float] = None
+        self: "Storage",
+        query: str,
+        limit: int = 10,
+        similarity_threshold: Optional[float] = None,
     ) -> List[Document]:
         query_embedding = self.embeddings.create_embeddings(query)
         max(1, min(limit, self.index.element_count - 1))
@@ -284,4 +294,6 @@ class Storage:
 
 if __name__ == "__main__":
     storage = Storage()
-    storage.add(Document("test", "test", "test", datetime.now(), np.array([1, 2, 3]), {}))
+    storage.add(
+        Document("test", "test", "test", datetime.now(), np.array([1, 2, 3]), {})
+    )

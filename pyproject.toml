@@ -58,7 +58,8 @@ select = [
     "ERA", # eradicate
 ]
 ignore = [
-    "S101"
+    "S101",
+    "S608"
 ]
 
 [build-system]

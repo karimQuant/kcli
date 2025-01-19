@@ -260,4 +260,3 @@ class Storage:
 
 if __name__ == "__main__":
     storage = Storage()
-

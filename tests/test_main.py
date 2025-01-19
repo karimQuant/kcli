@@ -9,6 +9,7 @@ import numpy as np
 def test_add_file():
     from kcli.main import Document, add_file
     from kcli.storage import Storage
+
     """Tests the add_file function."""
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file:
         tmp_file.write("test content")
@@ -16,8 +17,10 @@ def test_add_file():
 
     doc = add_file(tmp_file_path)
     doc = add_file(tmp_file_path)
-    storage= Storage()
-    results=storage.query(f"SELECT * FROM documents WHERE url = 'file://{tmp_file_path}'")
+    storage = Storage()
+    results = storage.query(
+        f"SELECT * FROM documents WHERE url = 'file://{tmp_file_path}'"
+    )
     assert len(results) == 1
     assert isinstance(doc, Document)
     assert doc.content == "test content"
@@ -31,6 +34,7 @@ def test_add_file():
 def test_search_knowledge_base():
     """Tests the search_knowledge_base function."""
     from kcli.main import add_file, search_knowledge_base
+
     # Create temporary files
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file1:
         tmp_file1.write("This is the first test document. It contains some keywords.")
@@ -46,16 +50,34 @@ def test_search_knowledge_base():
 
     # Search for a query that should match both documents
     search_results = search_knowledge_base("keywords")
-    assert f"## {os.path.basename(tmp_file_path1)} (file://{tmp_file_path1})" in search_results
-    assert "This is the first test document. It contains some keywords." in search_results
-    assert f"## {os.path.basename(tmp_file_path2)} (file://{tmp_file_path2})" in search_results
-    assert "This is the second test document. It also has some keywords." in search_results
+    assert (
+        f"## {os.path.basename(tmp_file_path1)} (file://{tmp_file_path1})"
+        in search_results
+    )
+    assert (
+        "This is the first test document. It contains some keywords." in search_results
+    )
+    assert (
+        f"## {os.path.basename(tmp_file_path2)} (file://{tmp_file_path2})"
+        in search_results
+    )
+    assert (
+        "This is the second test document. It also has some keywords." in search_results
+    )
 
     # Search for a query that should match only the first document
     search_results = search_knowledge_base("first test document", limit=1)
-    assert f"## {os.path.basename(tmp_file_path1)} (file://{tmp_file_path1})" in search_results
-    assert "This is the first test document. It contains some keywords." in search_results
-    assert f"## {os.path.basename(tmp_file_path2)} (file://{tmp_file_path2})" not in search_results
+    assert (
+        f"## {os.path.basename(tmp_file_path1)} (file://{tmp_file_path1})"
+        in search_results
+    )
+    assert (
+        "This is the first test document. It contains some keywords." in search_results
+    )
+    assert (
+        f"## {os.path.basename(tmp_file_path2)} (file://{tmp_file_path2})"
+        not in search_results
+    )
 
     for i in range(10):
         with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file:
@@ -63,8 +85,11 @@ def test_search_knowledge_base():
             tmp_file_path = tmp_file2.name
         add_file(tmp_file_path)
     # Search for a query that should not match any documents
-    search_results = search_knowledge_base("nonexistent query", similarity_threshold=0.9)
+    search_results = search_knowledge_base(
+        "nonexistent query", similarity_threshold=0.9
+    )
     assert search_results == ""
+
 
 def test_crawl_web_content():
     from kcli.main import crawl_web_content
@@ -84,10 +109,14 @@ def test_crawl_web_content():
         crawl_web_content("https://example.com")
         mock_process_url.assert_called_once_with("https://example.com")
 
-        results = storage.query("SELECT * FROM documents WHERE url = 'https://example.com'")
+        results = storage.query(
+            "SELECT * FROM documents WHERE url = 'https://example.com'"
+        )
         assert len(results) == 1
         assert results[0].content == "test content"
         assert results[0].title == "Test Title"
         assert results[0].url == "https://example.com"
-        assert (results[0].embedding == np.ones(storage.embeddings.embedding_size)).all()
+        assert (
+            results[0].embedding == np.ones(storage.embeddings.embedding_size)
+        ).all()
         assert results[0].meta["source"] == "web"

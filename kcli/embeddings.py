@@ -11,13 +11,18 @@ class Embeddings:
 
     def __init__(self) -> None:
         """Initializes the embedding model."""
-        self.model_name = os.environ.get("KCLI_EMBEDDING_MODEL", "text-embedding-ada-002")
+        self.model_name = os.environ.get(
+            "KCLI_EMBEDDING_MODEL", "text-embedding-ada-002"
+        )
         self.chunk_size = 5000
         try:
             test_embedding = self.create_embeddings("test")
             self.embedding_size = len(test_embedding)
         except Exception as e:
-            raise RuntimeError(f"Embedding model '{self.model_name}' is not available: {str(e)}")
+            raise RuntimeError(
+                f"Embedding model '{self.model_name}' is not available: {str(e)}"
+            )
+
     def create_embeddings(self, text: str) -> np.ndarray:
         """Generates embeddings for a single text."""
         if len(text) > self.chunk_size:
@@ -25,7 +30,9 @@ class Embeddings:
         response = embedding(model=self.model_name, input=[text])
         return np.array(response.data[0]["embedding"])
 
-    def create_chunks(self, text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]:
+    def create_chunks(
+        self, text: str, chunk_size: int = 1000, overlap: int = 200
+    ) -> List[str]:
         """Split text into overlapping chunks.
 
         Args:
@@ -51,7 +58,7 @@ class Embeddings:
             # If this is not the last chunk, try to break at a space
             if end < len(text):
                 # Look for the last space within the overlap region
-                last_space = text.rfind(' ', start, end)
+                last_space = text.rfind(" ", start, end)
                 if last_space != -1:
                     end = last_space
 
@@ -97,7 +104,7 @@ class Embeddings:
                 results.append(chunk_embeddings[start_idx])
             else:
                 # Average the embeddings of all chunks for this text
-                text_embeddings = chunk_embeddings[start_idx:start_idx + count]
+                text_embeddings = chunk_embeddings[start_idx : start_idx + count]
                 results.append(np.mean(text_embeddings, axis=0))
             start_idx += count
         return results

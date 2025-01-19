@@ -11,8 +11,6 @@ import kcli.storage as storage
 
 storage.configure()
 
-logging.getLogger('LiteLLM').setLevel(logging.WARNING)
-logging.getLogger('httpx').setLevel(logging.WARNING)
+logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 console = Console()
-
-

@@ -24,13 +24,15 @@ async def process_url(url: str) -> Optional[Document]:
                 config=run_config,
             )
             if not result or not result.markdown:
-                console.log(f"Failed to crawl or extract content from {url}",)
+                console.log(
+                    f"Failed to crawl or extract content from {url}",
+                )
                 return None
             embedding = embeddings.create_embeddings(result.markdown)
             doc = Document(
                 content=result.markdown,
                 url=url,
-                title=result.metadata.get('title',''),
+                title=result.metadata.get("title", ""),
                 created_at=datetime.now(),
                 embedding=embedding,
                 meta={"source": "web"},
@@ -40,4 +42,3 @@ async def process_url(url: str) -> Optional[Document]:
     except Exception as e:
         console.log(f"Error processing URL {url}: {e}")
         return None
-

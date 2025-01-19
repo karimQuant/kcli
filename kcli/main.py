@@ -46,11 +46,13 @@ def search_knowledge_base(
         show_lines=True,
     )
     table_result.add_column("date", justify="right", style="dim")
+    table_result.add_column("id", justify="right", style="dim")
     table_result.add_column("Title", justify="left", style="cyan")
     table_result.add_column("Content", justify="left", min_width=60)
     for _, doc in enumerate(results):
         table_result.add_row(
             doc.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            doc.id,
             doc.title,
             doc.content[:50],
         )

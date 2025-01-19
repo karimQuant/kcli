@@ -115,7 +115,8 @@ class Storage:
 
         Args:
         ----
-            doc (Document): The document to add to storage
+            doc (Document): Document object to be stored in the database. Must contain
+                content and metadata fields
         """
         # First add to SQLite
         cursor = self.db.cursor()
@@ -271,9 +272,9 @@ class Storage:
 
         Args:
         ----
-            exc_type (type): The type of the exception that was raised, if any
-            exc_val (Exception): The instance of the exception that was raised, if any
-            exc_tb (str): The traceback of the exception that was raised, if any
+            exc_type (type): Type of the exception that was raised during context execution
+            exc_val (Exception): Value of the exception that was raised during context execution
+            exc_tb (str): Traceback information if an exception occurred during context execution
         """
         """Close database connection and save index."""
         self.close()

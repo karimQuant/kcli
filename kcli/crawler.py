@@ -14,11 +14,12 @@ async def process_url(url: str) -> Optional[Document]:
 
     Args:
     ----
-        url (str): The URL to fetch and process into a document
+        url (str): URL string to fetch and process into a document. Must be a valid HTTP/HTTPS URL.
 
     Returns:
     -------
-        Optional[Document]: the resulting Document
+        Optional[Document]: The resulting Document object containing the processed content,
+        or None if processing fails
     """
     browser_config = BrowserConfig(
         headless=True,

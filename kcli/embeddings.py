@@ -40,13 +40,13 @@ class Embeddings:
 
         Args:
         ----
-            text (str): The input text to be split into chunks
-            chunk_size (int): The maximum size of each chunk in characters
-            overlap (int): The number of characters to overlap between chunks
+            text (str): The input text content that needs to be split into smaller chunks
+            chunk_size (int): The maximum number of characters allowed in each chunk
+            overlap (int): The number of characters that should overlap between consecutive chunks
 
         Returns:
         -------
-            List of text chunks with overlap.
+            List[str]: A list of text chunks with specified overlap between consecutive pieces
         """
         if len(text) <= chunk_size:
             return [text]
@@ -76,12 +76,15 @@ class Embeddings:
 
         Args:
         ----
-            texts (List[str]): The list of texts to generate embeddings for
-            overlap (int): The number of characters to overlap between chunks
+            texts (List[str]): List of text strings to generate embeddings for. Each text will be
+                processed independently
+            overlap (int): The number of characters that should overlap between consecutive chunks
+                when splitting long texts
 
         Returns:
         -------
-            List of embeddings arrays, one per input text.
+            List[np.ndarray]: List of embedding arrays, one per input text, where each array
+            represents the text's semantic vector
         """
         all_chunks = []
         chunk_counts = []

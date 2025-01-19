@@ -29,7 +29,7 @@ def web(url: str) -> None:
 
 @main.command()
 @click.argument("query")
-def search(query):
+def search(query: str) -> None:
     """Search the knowledge base."""
     console.print(f"Searching for: {query}")
     search_knowledge_base(query)

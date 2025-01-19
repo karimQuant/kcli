@@ -29,21 +29,14 @@ def web(url: str) -> None:
 
 @main.command()
 @click.argument("query")
-@click.option("--content", is_flag=True, help="Display the content of the search results.")
+@click.option(
+    "--content", is_flag=True, help="Display the content of the search results."
+)
 def search(query: str, content: bool) -> None:
     """Search the knowledge base."""
     console.print(f"Searching for: {query}")
     results = search_knowledge_base(query)
-    if results:
-        if content:
-            console.print(results)
-        else:
-            table = Table(title="Search Results")
-            table.add_column("Title", style="bold")
-            table.add_column("URL")
-            for doc in results.rows:
-                table.add_row(doc[0], doc[1])
-            console.print(table)
+    console.print(results)
 
 
 @main.command()

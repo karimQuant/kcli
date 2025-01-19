@@ -3,11 +3,12 @@ import asyncio
 import os
 from datetime import datetime
 from typing import Optional
-
+from rich.table import Table
 from kcli.crawler import process_url
 from kcli.embeddings import embeddings
 from kcli.log import console
 from kcli.storage import Document, Storage
+from rich import box
 
 storage = Storage()
 
@@ -39,12 +40,21 @@ def search_knowledge_base(
     )
     if not results:
         return None
-    output = ""
-    for i, doc in enumerate(results):
-        output += f"## {doc.title} ({doc.url})\n\n" if doc.title else ""
-        output += f"{doc.content}\n\n" if doc.content else ""
-    console.log(f"Search query: {query}, results: {len(results)}")
-    return output
+    table_result = Table(
+        title=f"({len(results)}) Search Results",
+        header_style="bold magenta",
+        show_lines=True,
+    )
+    table_result.add_column("date", justify="right", style="dim")
+    table_result.add_column("Title", justify="left", style="cyan")
+    table_result.add_column("Content", justify="left", min_width=60)
+    for _, doc in enumerate(results):
+        table_result.add_row(
+            doc.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            doc.title,
+            doc.content[:50],
+        )
+    return table_result
 
 
 def crawl_web_content(url: str) -> None:

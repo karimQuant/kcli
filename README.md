@@ -58,12 +58,19 @@ kcli uses a sophisticated architecture to make your knowledge searchable and acc
 
 ```mermaid
 graph TD
-    A[CLI Input] --> B[Document Processor]
-    B --> C[AI Embeddings]
-    C --> D[Local Storage]
-    E[Search Query] --> F[Semantic Search]
-    F --> D
-    D --> G[Results]
+    A[CLI Input] --> B{Input Type}
+    B -->|Local File| C[Document Processor]
+    B -->|URL| W[Web Crawler]
+    W -->|HTML| H[HTML Cleaner]
+    H -->|Markdown| C
+    C --> D[AI Embeddings]
+    D --> E[Local Storage]
+    F[Search Query] --> G[Semantic Search]
+    G --> E
+    E --> R[Results]
+    
+    style W fill:#f9f,stroke:#333
+    style H fill:#f9f,stroke:#333
 ```
 
 ## 🛠 Commands

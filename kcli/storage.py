@@ -64,7 +64,7 @@ class Document:
 class Storage:
     """Handles storage operations for kcli."""
 
-    def __init__(self) -> None:
+    def __init__(self: "Storage") -> None:
         """Initialize the storage."""
         global DB_PATH
         global INDEX_PATH
@@ -86,7 +86,7 @@ class Storage:
             self.index.init_index(max_elements=10000, ef_construction=200, M=16)
         self.embeddings = Embeddings()
 
-    def _create_table(self) -> None:
+    def _create_table(self: "Storage") -> None:
         self.db.execute(
             """
             CREATE TABLE IF NOT EXISTS documents (
@@ -119,7 +119,7 @@ class Storage:
             )
         return docs
 
-    def add(self, doc: Document) -> None:
+    def add(self: "Storage", doc: Document) -> None:
         # First add to SQLite
         cursor = self.db.cursor()
         cursor.execute("SELECT id FROM documents WHERE content = ?", (doc.content,))
@@ -154,7 +154,7 @@ class Storage:
         console.log(f"Document inserted: {doc_id}")
 
     def _brut_force_search(
-        self, query: str, limit: int = 10, similarity_threshold: Optional[float] = None
+        self: "Storage", query: str, limit: int = 10, similarity_threshold: Optional[float] = None
     ) -> List[Document]:
         query_embedding = self.embeddings.create_embeddings(query)
         # Fetch all documents from SQLite
@@ -203,7 +203,7 @@ class Storage:
         ]
 
     def search(
-        self, query: str, limit: int = 10, similarity_threshold: Optional[float] = None
+        self: "Storage", query: str, limit: int = 10, similarity_threshold: Optional[float] = None
     ) -> List[Document]:
         """Search for a query in the knowledge base."""
         if self.index.element_count > 100:

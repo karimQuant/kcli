@@ -9,7 +9,7 @@ from litellm import embedding
 class Embeddings:
     """Handles text-to-vector conversions using LiteLLM."""
 
-    def __init__(self) -> None:
+    def __init__(self: "Embeddings") -> None:
         """Initialize the embedding model."""
         self.model_name = os.environ.get(
             "KCLI_EMBEDDING_MODEL", "text-embedding-ada-002"
@@ -31,7 +31,7 @@ class Embeddings:
         return np.array(response.data[0]["embedding"])
 
     def create_chunks(
-        self,
+        self: "Embeddings",
         text: str,
         chunk_size: int = 1000,
         overlap: int = 200,
@@ -71,7 +71,7 @@ class Embeddings:
 
         return chunks
 
-    def batch_embed(self, texts: List[str], overlap: int = 200) -> List[np.ndarray]:
+    def batch_embed(self: "Embeddings", texts: List[str], overlap: int = 200) -> List[np.ndarray]:
         """Generate embeddings for a list of texts, with chunking.
 
         Args:

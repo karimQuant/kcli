@@ -12,7 +12,7 @@ TEST_DIR = ".test_kcli"
 
 
 @pytest.fixture(autouse=True)
-def override_paths(request):
+def override_paths(request) -> None:
     """Overrides the DB_PATH and INDEX_PATH to use a unique test directory for each test."""
     # Create a unique test directory for this test
     test_id = request.node.nodeid.replace("/", "_").replace(":", "_")
@@ -35,7 +35,7 @@ def override_paths(request):
 
 
 @pytest.fixture(autouse=True)
-def mock_litellm():
+def mock_litellm() -> None:
     """Mocks litellm to return an array of ones for embeddings."""
     with patch("litellm.embedding") as mock_embedding:
         mock_embedding.return_value = {"data": [{"embedding": np.ones(1500).tolist()}]}

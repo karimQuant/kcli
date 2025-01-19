@@ -6,7 +6,7 @@ from unittest.mock import patch
 import numpy as np
 
 
-def test_add_file():
+def test_add_file() -> None:
     from kcli.main import Document, add_file
     from kcli.storage import Storage
 
@@ -31,7 +31,7 @@ def test_add_file():
     os.remove(tmp_file_path)
 
 
-def test_search_knowledge_base():
+def test_search_knowledge_base() -> None:
     """Tests the search_knowledge_base function."""
     from kcli.main import add_file, search_knowledge_base
 
@@ -91,7 +91,7 @@ def test_search_knowledge_base():
     assert search_results == ""
 
 
-def test_crawl_web_content():
+def test_crawl_web_content() -> None:
     from kcli.main import crawl_web_content
     from kcli.storage import Document, Storage
 

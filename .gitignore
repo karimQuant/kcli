@@ -11,4 +11,4 @@ build/
 *.egg-info/
 .venv/
 .ruff_cache/
-.vscode
+.vscode/

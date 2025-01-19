@@ -32,15 +32,17 @@ def add_file(file_path: str) -> Document:
 
 def search_knowledge_base(
     query: str, limit: int = 10, similarity_threshold: Optional[float] = None
-) -> str:
+) -> str | None:
     """Search the knowledge base."""
     results = storage.search(
         query, limit=limit, similarity_threshold=similarity_threshold
     )
-    output = ""
+    if not results:
+        return None
+    output = ""    
     for doc in results:
-        output += f"## {doc.title} ({doc.url})\n\n"
-        output += f"{doc.content}\n\n---\n\n"
+        output += f"## {doc.title} ({doc.url})\n\n" if doc.title else ""
+        output += f"{doc.content}\n\n---\n\n" if doc.content else ""
     console.log(f"Search query: {query}, results: {len(results)}")
     return output
 

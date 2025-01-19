@@ -9,8 +9,8 @@ from litellm import embedding
 class Embeddings:
     """Handles text-to-vector conversions using LiteLLM."""
 
-    def __init__(self, ) -> None:
-        """Initializes the embedding model."""
+    def __init__(self) -> None:
+        """Initialize the embedding model."""
         self.model_name = os.environ.get(
             "KCLI_EMBEDDING_MODEL", "text-embedding-ada-002"
         )
@@ -21,7 +21,7 @@ class Embeddings:
         except Exception as e:
             raise RuntimeError(
                 f"Embedding model '{self.model_name}' is not available: {str(e)}"
-            )
+            ) from e
 
     def create_embeddings(self, text: str) -> np.ndarray:
         """Generates embeddings for a single text."""

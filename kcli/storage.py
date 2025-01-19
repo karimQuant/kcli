@@ -314,7 +314,12 @@ class Storage:
         return None
 
     def add(self: "Storage", doc: Document) -> None:
+        """Add a document to the storage.
 
+        Args:
+            doc (Document): Document object to be stored in the database. Must contain
+                content and metadata fields.
+        """
     def __enter__(self: "Storage") -> "Storage":
         """Enter the context manager."""
         return self

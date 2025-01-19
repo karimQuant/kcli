@@ -59,7 +59,8 @@ select = [
 ]
 ignore = [
     "S101",
-    "S608"
+    "S608",
+    "D407"
 ]
 
 [build-system]

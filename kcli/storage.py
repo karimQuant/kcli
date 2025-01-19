@@ -28,11 +28,9 @@ def configure() -> None:
     global DB_PATH
     global INDEX_PATH
 
-    DB_PATH = os.environ.get(
-        "KCLI_DB_PATH", f"{pathlib.Path.home()}/.config/kcli.sqlite"
-    )
+    DB_PATH = os.environ.get("KCLI_DB_PATH", f"{pathlib.Path.home()}/.kcli/db.sqlite")
     INDEX_PATH = os.environ.get(
-        "KCLI_INDEX_PATH", f"{pathlib.Path.home()}/.config/kcli.index.ann"
+        "KCLI_INDEX_PATH", f"{pathlib.Path.home()}/.kcli/index.ann"
     )
     if not os.path.exists(DB_PATH):
         os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
@@ -79,14 +77,14 @@ class Storage:
 
     def _create_table(self: "Storage") -> None:
         self.db.execute(
-            """
+            f"""
             CREATE TABLE IF NOT EXISTS documents (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 content TEXT,
                 url TEXT,
                 title TEXT,
                 created_at TEXT,
-                embedding float[768],
+                embedding float[{VECTOR_DIM}],
                 meta TEXT
             );
             """
@@ -106,7 +104,7 @@ class Storage:
                     title=row[3],
                     created_at=datetime.fromisoformat(row[4]),
                     embedding=np.array(json.loads(row[5])),
-                    meta=row[6] if row[6] else {},
+                    meta=json.loads(row[6]) if row[6] else {},
                 )
             )
         return docs
@@ -139,7 +137,7 @@ class Storage:
                 json.dumps(np.array(doc.embedding).tolist())
                 if doc.embedding is not None
                 else None,
-                str(doc.meta),
+                json.dumps(doc.meta) if doc.meta else None,
             ),
         )
         doc_id = cursor.fetchone()[0]
@@ -198,7 +196,7 @@ class Storage:
                 title=row[2],
                 created_at=datetime.fromisoformat(row[3]),
                 embedding=np.array(json.loads(row[4])) if row[4] else None,
-                meta=row[5] if row[5] else {},
+                meta=json.loads(row[5]) if row[5] else {},
             )
             for row in rows
         ]
@@ -261,7 +259,7 @@ class Storage:
                 title=row[2],
                 created_at=datetime.fromisoformat(row[3]),
                 embedding=np.array(json.loads(row[4])) if row[4] else None,
-                meta=row[5] if row[5] else {},
+                meta=json.loads(row[5]) if row[5] else {},
             )
             for row in rows
         ]

@@ -21,7 +21,7 @@ def main() -> None:
 
 @main.command()
 @click.argument("url")
-def web(url):
+def web(url: str) -> None:
     """Crawl and add web content to knowledge base."""
     console.print(f"Crawling {url}...")
     crawl_web_content(url)

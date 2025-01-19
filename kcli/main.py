@@ -2,6 +2,7 @@
 import asyncio
 import os
 from datetime import datetime
+from typing import Optional
 
 from kcli.crawler import process_url
 from kcli.embeddings import embeddings
@@ -9,6 +10,7 @@ from kcli.log import console
 from kcli.storage import Document, Storage
 
 storage = Storage()
+
 
 def add_file(file_path: str) -> Document:
     """Add a local file to the knowledge base."""
@@ -27,15 +29,21 @@ def add_file(file_path: str) -> Document:
     storage.add(doc)
     return doc
 
-def search_knowledge_base(query: str, limit: int = 10, similarity_threshold = None) -> str:
+
+def search_knowledge_base(
+    query: str, limit: int = 10, similarity_threshold: Optional[float] = None
+) -> str:
     """Search the knowledge base."""
-    results = storage.search(query, limit=limit, similarity_threshold=similarity_threshold)
+    results = storage.search(
+        query, limit=limit, similarity_threshold=similarity_threshold
+    )
     output = ""
     for doc in results:
         output += f"## {doc.title} ({doc.url})\n\n"
         output += f"{doc.content}\n\n---\n\n"
     console.log(f"Search query: {query}, results: {len(results)}")
     return output
+
 
 def crawl_web_content(url: str):
     """Crawl and add web content to knowledge base."""
@@ -44,6 +52,7 @@ def crawl_web_content(url: str):
         storage.add(doc)
     else:
         console.log(f"Failed to crawl {url}")
+
 
 def get_knowledge_base_stats():
     """Display knowledge base statistics."""

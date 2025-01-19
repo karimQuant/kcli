@@ -57,7 +57,8 @@ def doc(doc_id: int) -> None:
     console.print(f"Retrieving document with ID: {doc_id}")
     doc = get_document_by_id(doc_id)
     if doc:
-        console.print(doc.content)
+        console.print(f"[bold cyan]Title:[/bold cyan] {doc.title}")
+        console.print(f"[bold]Content:[/bold]\n{doc.content}")
     else:
         console.print(f"Document with ID {doc_id} not found.")
 

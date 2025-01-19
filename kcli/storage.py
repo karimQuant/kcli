@@ -106,7 +106,7 @@ class Storage:
                     title=row[3],
                     created_at=datetime.fromisoformat(row[4]),
                     embedding=np.array(json.loads(row[5])),
-                    meta=eval(row[6]) if row[6] else {},
+                    meta=row[6] if row[6] else {},
                 )
             )
         return docs

@@ -109,7 +109,29 @@ class Storage:
                     meta=json.loads(row[6]) if row[6] else {},
                 )
             )
-        return docs
+    def get_document_by_id(self: "Storage", doc_id: int) -> Optional[Document]:
+        """Retrieve a document by its ID."""
+        cursor = self.db.cursor()
+        cursor.execute(
+            """
+            SELECT id, content, url, title, created_at, embedding, meta
+            FROM documents
+            WHERE id = ?
+            """,
+            (doc_id,),
+        )
+        row = cursor.fetchone()
+        if row:
+            return Document(
+                id=row[0],
+                content=row[1],
+                url=row[2],
+                title=row[3],
+                created_at=datetime.fromisoformat(row[4]),
+                embedding=np.array(json.loads(row[5])) if row[5] else None,
+                meta=json.loads(row[6]) if row[6] else {},
+            )
+        return None
 
     def add(self: "Storage", doc: Document) -> None:
         """Add a document to the storage.

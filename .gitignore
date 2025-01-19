@@ -12,3 +12,4 @@ build/
 .venv/
 .ruff_cache/
 .vscode/
+.test_kcli/

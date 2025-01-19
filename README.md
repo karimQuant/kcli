@@ -1,60 +1,124 @@
-# kcli
+# kcli 🧠
 
-A local knowledge base CLI tool that prioritizes privacy while helping you organize knowledge around your codebase and local files. 
+Your personal, privacy-focused knowledge companion! Store, search and organize your knowledge without leaving the terminal.
 
-## Description
+## ✨ Features
 
-kcli is a command-line tool that allows you to:
-- Build and maintain a private, local knowledge base
-- Index and search through your codebase and local documentation
-- Crawl and archive specified URLs for offline reference
-- Search through your knowledge base using embedding similarity matching for more accurate results
-- Keep all your data local and private - no cloud dependencies
+- 🔒 **100% Private**: All data stays on your machine - no cloud, no tracking
+- 🔍 **Smart Search**: Uses AI embeddings for semantic search capabilities
+- 📚 **Multi-source**: Index local files, web pages, and documentation
+- ⚡ **Lightning Fast**: Built with hnswlib for rapid similarity search
+- 🎯 **Developer Focused**: Perfect for codebases and technical documentation
+- 🔄 **Format Friendly**: Handles markdown, code, and web content seamlessly
 
-The tool is designed for developers who want to maintain searchable documentation and knowledge while keeping sensitive information secure and locally stored.
+## 🚀 Quick Start
 
-## Architecture
+### Installation
+
+```bash
+# Using pip
+pip install kcli
+
+# Using poetry (recommended)
+poetry add kcli
+```
+
+### Basic Usage
+
+```bash
+# Add a local file to your knowledge base
+kcli add README.md
+
+# Add a webpage
+kcli web https://docs.python.org/3/tutorial/
+
+# Search your knowledge base
+kcli search "how to handle exceptions in Python"
+
+# View knowledge base stats
+kcli stats
+```
+
+## 🎯 Use Cases
+
+- 📝 Keep track of useful code snippets and solutions
+- 📚 Build a personal documentation hub
+- 🌐 Save web articles for offline reference
+- 🔍 Search across all your technical notes
+- 📖 Create a searchable knowledge archive
+
+## 🏗 How It Works
+
+kcli uses a sophisticated architecture to make your knowledge searchable and accessible:
+
+1. 📥 **Input Processing**: Documents (files/web pages) are processed and cleaned
+2. 🧮 **Embedding Generation**: Content is converted to vector embeddings using AI
+3. 📊 **Smart Storage**: Uses SQLite + hnswlib for efficient storage and retrieval
+4. 🔍 **Semantic Search**: Finds relevant content based on meaning, not just keywords
 
 ```mermaid
 graph TD
     A[CLI Input] --> B[Document Processor]
-    B --> C[LangChain Embeddings]
-    C --> D[SQLite-Vec Storage]
-    E[Local Files] --> B
-    F[URLs] --> G[URL Crawler]
-    G --> H[Markdownify Converter]
-    H --> B
-    I[Search Query] --> J[Embedding Similarity Search]
-    J --> D
-    D --> K[Search Results]
+    B --> C[AI Embeddings]
+    C --> D[Local Storage]
+    E[Search Query] --> F[Semantic Search]
+    F --> D
+    D --> G[Results]
 ```
 
-### Components
+## 🛠 Commands
 
-- **Document Processor**: Handles various input sources including local files, code, and web content
-- **LangChain Embeddings**: Converts text content into vector embeddings for semantic search 
-- **Storage Layer**:
-  - SQLite database for document metadata and content
-  - hnswlib index for fast approximate nearest neighbor search
-  - No cloud dependencies, everything stays on your machine
-- **URL Crawler & Converter**: 
-  - Fetches web content while respecting robots.txt
-  - Uses markdownify to convert HTML to clean markdown
-  - Preserves essential content structure and links
-  - Strips unnecessary styling and scripts
-  - Stores standardized markdown format in knowledge base
+### `kcli add <file>`
+Add local files to your knowledge base
+```bash
+kcli add documentation.md
+```
 
-### Data Flow
-1. Input Processing:
-   - Local files are read directly
-   - URLs are crawled and HTML is converted to markdown via markdownify
-   - Code files are processed with syntax awareness
-2. Documents are processed and converted to embeddings via LangChain
-3. Embeddings are created for the document content
-4. Embeddings and metadata are stored in SQLite while vectors are indexed in hnswlib
-5. Search queries are converted to embeddings
-6. Similarity matching finds relevant content using hnswlib's approximate nearest neighbor search
-7. Results are returned ranked by relevance
+### `kcli web <url>`
+Archive web pages
+```bash
+kcli web https://python.org
+```
 
-# Dependency management
-- We use poetry to manage depedencies for this project
+### `kcli search <query>`
+Search your knowledge base
+```bash
+kcli search "python decorators example"
+```
+
+### `kcli stats`
+View knowledge base statistics
+```bash
+kcli stats
+```
+
+## 🔐 Privacy First
+
+kcli is designed with privacy in mind:
+- No cloud dependencies
+- No data leaving your machine
+- No tracking or telemetry
+- Local SQLite database
+- You own your data
+
+## 🤝 Contributing
+
+We love contributions! Here's how you can help:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🌟 Show Your Support
+
+If you find kcli useful, please give it a star on GitHub! It helps others discover the project.
+
+---
+
+Built with ❤️ for developers who value privacy and efficiency.

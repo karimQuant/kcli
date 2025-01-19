@@ -121,3 +121,25 @@ def test_crawl_web_content() -> None:
             results[0].embedding == np.ones(storage.embeddings.embedding_size)
         ).all()
         assert results[0].meta["source"] == "web"
+
+
+def test_get_document_by_id() -> None:
+    """Test the get_document_by_id function."""
+    from kcli.main import add_file, get_document_by_id
+    from kcli.storage import Storage
+
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file:
+        tmp_file.write("This is a test document for get_document_by_id.")
+        tmp_file_path = tmp_file.name
+
+    # Add the file to the knowledge base
+    doc = add_file(tmp_file_path)
+    # Retrieve the document by its ID
+    retrieved_doc = get_document_by_id(doc.id)
+
+    # Assert that the retrieved document is correct
+    assert retrieved_doc is not None
+    assert retrieved_doc.content == "This is a test document for get_document_by_id."
+    assert retrieved_doc.title == os.path.basename(tmp_file_path)
+    os.remove(tmp_file_path)

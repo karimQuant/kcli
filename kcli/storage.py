@@ -48,6 +48,7 @@ class Document:
     created_at: datetime
     embedding: Optional[np.ndarray]
     meta: Dict[str, Any]
+    id: Optional[int] = None
 
 
 class Storage:
@@ -99,6 +100,7 @@ class Storage:
         for row in rows:
             docs.append(
                 Document(
+                    id=row[0],
                     content=row[1],
                     url=row[2],
                     title=row[3],
@@ -107,9 +109,30 @@ class Storage:
                     meta=json.loads(row[6]) if row[6] else {},
                 )
             )
-        return docs
 
-    def add(self: "Storage", doc: Document) -> None:
+    def get_document_by_id(self: "Storage", doc_id: int) -> Optional[Document]:
+        """Retrieve a document by its ID."""
+        cursor = self.db.cursor()
+        cursor.execute(
+            """
+            SELECT id, content, url, title, created_at, embedding, meta
+            FROM documents
+            WHERE id = ?
+            """,
+            (doc_id,),
+        )
+        row = cursor.fetchone()
+        if row:
+            return Document(
+                id=row[0],
+                content=row[1],
+                url=row[2],
+                title=row[3],
+                created_at=datetime.fromisoformat(row[4]),
+                embedding=np.array(json.loads(row[5])) if row[5] else None,
+                meta=json.loads(row[6]) if row[6] else {},
+            )
+        return None
         """Add a document to the storage.
 
         Args:
@@ -141,6 +164,7 @@ class Storage:
             ),
         )
         doc_id = cursor.fetchone()[0]
+        doc.id = doc_id
         self.db.commit()
 
         # Then add to hnswlib index
@@ -158,13 +182,15 @@ class Storage:
         query_embedding = self.embeddings.create_embeddings(query)
         # Fetch all documents from SQLite
         cursor = self.db.cursor()
-        cursor.execute("SELECT id, content, embedding FROM documents")
+        cursor.execute(
+            "SELECT id, content, url, title, created_at, embedding, meta FROM documents"
+        )
         rows = cursor.fetchall()
 
         # Calculate cosine similarity for each document
         similarities = []
         for row in rows:
-            doc_id, content, embedding = row
+            doc_id, content, url, title, created_at, embedding, meta = row
             if embedding is not None:
                 embedding = np.array(json.loads(embedding))
                 similarity = np.dot(query_embedding, embedding) / (
@@ -182,7 +208,7 @@ class Storage:
         placeholders = ",".join("?" * len(doc_ids))
         cursor.execute(
             f"""
-            SELECT content, url, title, created_at, embedding, meta
+            SELECT id, content, url, title, created_at, embedding, meta
             FROM documents
             WHERE id IN ({placeholders})
             """,
@@ -191,12 +217,13 @@ class Storage:
         rows = cursor.fetchall()
         return [
             Document(
-                content=row[0],
-                url=row[1],
-                title=row[2],
-                created_at=datetime.fromisoformat(row[3]),
-                embedding=np.array(json.loads(row[4])) if row[4] else None,
-                meta=json.loads(row[5]) if row[5] else {},
+                id=row[0],
+                content=row[1],
+                url=row[2],
+                title=row[3],
+                created_at=datetime.fromisoformat(row[4]),
+                embedding=np.array(json.loads(row[5])) if row[5] else None,
+                meta=json.loads(row[6]) if row[6] else {},
             )
             for row in rows
         ]
@@ -245,7 +272,7 @@ class Storage:
         cursor = self.db.cursor()
         cursor.execute(
             f"""
-            SELECT content, url, title, created_at, embedding, meta
+            SELECT id, content, url, title, created_at, embedding, meta
             FROM documents
             WHERE id IN ({placeholders})
             """,
@@ -254,19 +281,28 @@ class Storage:
         rows = cursor.fetchall()
         return [
             Document(
-                content=row[0],
-                url=row[1],
-                title=row[2],
-                created_at=datetime.fromisoformat(row[3]),
-                embedding=np.array(json.loads(row[4])) if row[4] else None,
-                meta=json.loads(row[5]) if row[5] else {},
+                id=row[0],
+                content=row[1],
+                url=row[2],
+                title=row[3],
+                created_at=datetime.fromisoformat(row[4]),
+                embedding=np.array(json.loads(row[5])) if row[5] else None,
+                meta=json.loads(row[6]) if row[6] else {},
             )
             for row in rows
         ]
 
     def close(self: "Storage") -> None:
-        """Close database connection."""
+        """Close database connection and save index."""
         self.db.close()
+
+    def add(self: "Storage", doc: Document) -> None:
+        """Add a document to the storage.
+
+        Args:
+            doc (Document): Document object to be stored in the database. Must contain
+                content and metadata fields.
+        """
 
     def __enter__(self: "Storage") -> "Storage":
         """Enter the context manager."""

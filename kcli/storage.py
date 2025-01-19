@@ -9,6 +9,18 @@ from typing import Any, Dict, List, Optional
 import hnswlib
 import numpy as np
 
+"""Handles storage operations for kcli."""
+import json
+import os
+import pathlib
+import sqlite3
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+import hnswlib
+import numpy as np
+
 from kcli.embeddings import Embeddings
 from kcli.log import console
 
@@ -20,7 +32,8 @@ DB_PATH: Optional[str] = None
 INDEX_PATH: Optional[str] = None
 
 
-def configure():
+def configure() -> None:
+    """Configure the storage."""
     global embedding
     global VECTOR_DIM
     global DB_PATH
@@ -51,7 +64,8 @@ class Document:
 class Storage:
     """Handles storage operations for kcli."""
 
-    def __init__(self) -> None:
+    def __init__(self, ) -> None:
+        """Initialize the storage."""
         global DB_PATH
         global INDEX_PATH
         global VECTOR_DIM

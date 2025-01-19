@@ -25,9 +25,7 @@ async def process_url(url: str) -> Optional[Document]:
                 config=run_config,
             )
             if not result or not result.markdown:
-                console.log(
-                    f"Failed to crawl or extract content from {url}"
-                )
+                console.log(f"Failed to crawl or extract content from {url}")
                 return None
             embedding = embeddings.create_embeddings(result.markdown)
             doc = Document(

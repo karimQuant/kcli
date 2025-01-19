@@ -9,7 +9,7 @@ from litellm import embedding
 class Embeddings:
     """Handles text-to-vector conversions using LiteLLM."""
 
-    def __init__(self) -> None:
+    def __init__(self, ) -> None:
         """Initialize the embedding model."""
         self.model_name = os.environ.get(
             "KCLI_EMBEDDING_MODEL", "text-embedding-ada-002"
@@ -24,7 +24,7 @@ class Embeddings:
             ) from e
 
     def create_embeddings(self, text: str) -> np.ndarray:
-        """Generates embeddings for a single text."""
+        """Generate embeddings for a single text."""
         if len(text) > self.chunk_size:
             return self.batch_embed([text])[0]
         response = embedding(model=self.model_name, input=[text])
@@ -43,7 +43,6 @@ class Embeddings:
             text: Text to split into chunks
             chunk_size: Maximum size of each chunk in characters
             overlap: Number of characters to overlap between chunks
-
 
         Returns:
         -------
@@ -80,7 +79,6 @@ class Embeddings:
             texts: List of texts to embed
             overlap: Number of characters to overlap between chunks
 
-
         Returns:
         -------
             List of embeddings arrays, one per input text
@@ -110,6 +108,4 @@ class Embeddings:
                 results.append(np.mean(text_embeddings, axis=0))
             start_idx += count
         return results
-
-
 embeddings = Embeddings()

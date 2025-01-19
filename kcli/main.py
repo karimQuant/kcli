@@ -54,7 +54,7 @@ def crawl_web_content(url: str) -> None:
         console.log(f"Failed to crawl {url}")
 
 
-def get_knowledge_base_stats():
+def get_knowledge_base_stats() -> None:
     """Display knowledge base statistics."""
     # TODO: Implement storage.get_stats()
     pass

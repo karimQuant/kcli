@@ -8,7 +8,7 @@ import numpy as np
 import hnswlib
 from kcli.embeddings import Embeddings
 from kcli.log import console
-
+import pathlib
 storage = None
 embedding = None
 
@@ -22,8 +22,8 @@ def configure():
     global DB_PATH
     global INDEX_PATH
     
-    DB_PATH = os.environ.get("KCLI_DB_PATH","~/.kcli/kcli.sqlite")
-    INDEX_PATH = os.environ.get("KCLI_INDEX_PATH","~/.kcli/kcli.index.ann")
+    DB_PATH = os.environ.get("KCLI_DB_PATH",f"{pathlib.Path.home()}/.config/kcli.sqlite")
+    INDEX_PATH = os.environ.get("KCLI_INDEX_PATH",f"{pathlib.Path.home()}/.config/kcli.index.ann")
     if not os.path.exists(DB_PATH):
         os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     embedding = Embeddings()

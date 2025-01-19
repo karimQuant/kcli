@@ -57,6 +57,9 @@ select = [
     "TID", # flake8-tidy-imports
     "ERA", # eradicate
 ]
+ignore = [
+    "S101"
+]
 
 [build-system]
 requires = ["poetry-core"]

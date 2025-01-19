@@ -132,8 +132,6 @@ class Storage:
                 meta=json.loads(row[6]) if row[6] else {},
             )
         return None
-
-    def add(self: "Storage", doc: Document) -> None:
         """Add a document to the storage.
 
         Args:

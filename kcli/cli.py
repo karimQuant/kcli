@@ -14,7 +14,7 @@ from kcli.main import (
 
 @click.group()
 @click.version_option()
-def main():
+def main() -> None:
     """KCLI - Local Knowledge Base CLI."""
     pass
 

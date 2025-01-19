@@ -10,7 +10,16 @@ from kcli.storage import Document
 
 
 async def process_url(url: str) -> Optional[Document]:
-    """Process a URL using crawl4ai, fetches content, converts to Markdown, and returns a Document."""
+    """Process a URL and return a Document.
+
+    Args:
+    ----
+        url (str): url to fetch.
+
+    Returns:
+    -------
+        Optional[Document]: the resulting Document
+    """
     browser_config = BrowserConfig(
         headless=True,
         verbose=False,

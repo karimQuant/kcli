@@ -187,7 +187,7 @@ class Storage:
                 title=row[2],
                 created_at=datetime.fromisoformat(row[3]),
                 embedding=np.array(json.loads(row[4])) if row[4] else None,
-                meta=eval(row[5]) if row[5] else {},
+                meta=row[5] if row[5] else {},
             )
             for row in rows
         ]
@@ -244,7 +244,7 @@ class Storage:
                 title=row[2],
                 created_at=datetime.fromisoformat(row[3]),
                 embedding=np.array(json.loads(row[4])) if row[4] else None,
-                meta=eval(row[5]) if row[5] else {},
+                meta=row[5] if row[5] else {},
             )
             for row in rows
         ]
@@ -265,3 +265,4 @@ class Storage:
 
 if __name__ == "__main__":
     storage = Storage()
+    storage.add(Document("test", "test", "test", datetime.now(), np.array([1, 2, 3]), {}))

@@ -8,9 +8,15 @@ from kcli.crawler import process_url
 from kcli.embeddings import embeddings
 from kcli.log import console
 from kcli.storage import Document, Storage
+from typing import Optional
 from rich import box
 
 storage = Storage()
+
+
+def get_document_by_id(doc_id: int) -> Optional[Document]:
+    """Retrieve a document by its ID."""
+    return storage.get_document_by_id(doc_id)
 
 
 def add_file(file_path: str) -> Document:

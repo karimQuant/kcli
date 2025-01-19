@@ -125,7 +125,7 @@ def test_crawl_web_content() -> None:
 
 def test_get_document_by_id() -> None:
     """Test the get_document_by_id function."""
-    from kcli.main import add_file
+    from kcli.main import add_file, get_document_by_id
     from kcli.storage import Storage
 
     # Create a temporary file
@@ -135,9 +135,8 @@ def test_get_document_by_id() -> None:
 
     # Add the file to the knowledge base
     doc = add_file(tmp_file_path)
-    storage = Storage()
     # Retrieve the document by its ID
-    retrieved_doc = storage.get_document_by_id(doc.id)
+    retrieved_doc = get_document_by_id(doc.id)
 
     # Assert that the retrieved document is correct
     assert retrieved_doc is not None

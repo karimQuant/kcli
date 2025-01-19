@@ -9,8 +9,8 @@ from kcli.main import (
     crawl_web_content,
     get_knowledge_base_stats,
     search_knowledge_base,
-    get_document_by_id,
 )
+from kcli.main import get_document_by_id
 
 
 @click.group()

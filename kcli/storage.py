@@ -1,14 +1,3 @@
-import json
-import os
-import pathlib
-import sqlite3
-from dataclasses import dataclass
-from datetime import datetime
-from typing import Any, Dict, List, Optional
-
-import hnswlib
-import numpy as np
-
 """Handles storage operations for kcli."""
 import json
 import os
@@ -101,7 +90,8 @@ class Storage:
             """
         )
 
-    def query(self, query: str):
+    def query(self: "Storage", query: str) -> List[Document]:
+        """Search for a query in the knowledge base."""
         cursor = self.db.cursor()  # Use existing connection
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -266,7 +256,8 @@ class Storage:
     def __enter__(self) -> "Storage":
         return self
 
-    def __exit__(self, exc_type: type, exc_val: Exception, exc_tb: str) -> None:
+    def __exit__(self: "Storage", exc_type: type, exc_val: Exception, exc_tb: str) -> None:
+        """Close database connection and save index."""
         self.close()
         if hasattr(self, "index"):
             self.index.save_index(self.index_path)

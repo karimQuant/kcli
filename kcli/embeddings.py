@@ -40,13 +40,13 @@ class Embeddings:
 
         Args:
         ----
-            text: Text to split into chunks
-            chunk_size: Maximum size of each chunk in characters
-            overlap: Number of characters to overlap between chunks
+            text: Text to split into chunks.
+            chunk_size: Maximum size of each chunk in characters.
+            overlap: Number of characters to overlap between chunks.
 
         Returns:
         -------
-            List of text chunks with overlap
+            List of text chunks with overlap.
         """
         if len(text) <= chunk_size:
             return [text]
@@ -76,12 +76,12 @@ class Embeddings:
 
         Args:
         ----
-            texts: List of texts to embed
-            overlap: Number of characters to overlap between chunks
+            texts: List of texts to embed.
+            overlap: Number of characters to overlap between chunks.
 
         Returns:
         -------
-            List of embeddings arrays, one per input text
+            List of embeddings arrays, one per input text.
         """
         all_chunks = []
         chunk_counts = []

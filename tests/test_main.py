@@ -1,3 +1,4 @@
+"""Tests for kcli."""
 import os
 import tempfile
 from datetime import datetime
@@ -7,10 +8,10 @@ import numpy as np
 
 
 def test_add_file() -> None:
+    """Tests the add_file function."""
     from kcli.main import Document, add_file
     from kcli.storage import Storage
 
-    """Tests the add_file function."""
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file:
         tmp_file.write("test content")
         tmp_file_path = tmp_file.name
@@ -32,7 +33,7 @@ def test_add_file() -> None:
 
 
 def test_search_knowledge_base() -> None:
-    """Tests the search_knowledge_base function."""
+    """Test the search_knowledge_base function."""
     from kcli.main import add_file, search_knowledge_base
 
     # Create temporary files
@@ -92,10 +93,10 @@ def test_search_knowledge_base() -> None:
 
 
 def test_crawl_web_content() -> None:
+    """Test the crawl_web_content function."""
     from kcli.main import crawl_web_content
     from kcli.storage import Document, Storage
 
-    """Tests the crawl_web_content function."""
     with patch("kcli.main.process_url") as mock_process_url:
         storage = Storage()
         mock_process_url.return_value = Document(

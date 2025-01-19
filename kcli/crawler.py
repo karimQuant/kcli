@@ -1,11 +1,12 @@
-import asyncio
 from datetime import datetime
 from typing import Optional
 
-from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig, CacheMode
+from crawl4ai import AsyncWebCrawler, BrowserConfig, CacheMode, CrawlerRunConfig
+
 from kcli.embeddings import embeddings
-from kcli.storage import Document
 from kcli.log import console
+from kcli.storage import Document
+
 
 async def process_url(url: str) -> Optional[Document]:
     """Processes a URL using crawl4ai, fetches content, converts to Markdown, and returns a Document."""

@@ -1,12 +1,10 @@
 """CLI implementation for kcli."""
+
 import click
-from rich.console import Console
 from rich.table import Table
-from kcli.main import add_file, search_knowledge_base, crawl_web_content, get_knowledge_base_stats
-import logging
-from rich.logging import RichHandler
+
 from kcli.log import console
-import os
+from kcli.main import add_file, crawl_web_content, get_knowledge_base_stats, search_knowledge_base
 
 
 @click.group()

@@ -1,14 +1,17 @@
-import sqlite3
-import os
 import json
-from typing import List, Optional, Dict, Any
+import os
+import pathlib
+import sqlite3
 from dataclasses import dataclass
 from datetime import datetime
-import numpy as np
+from typing import Any, Dict, List, Optional
+
 import hnswlib
+import numpy as np
+
 from kcli.embeddings import Embeddings
 from kcli.log import console
-import pathlib
+
 storage = None
 embedding = None
 
@@ -21,7 +24,7 @@ def configure():
     global VECTOR_DIM
     global DB_PATH
     global INDEX_PATH
-    
+
     DB_PATH = os.environ.get("KCLI_DB_PATH",f"{pathlib.Path.home()}/.config/kcli.sqlite")
     INDEX_PATH = os.environ.get("KCLI_INDEX_PATH",f"{pathlib.Path.home()}/.config/kcli.index.ann")
     if not os.path.exists(DB_PATH):
@@ -29,7 +32,7 @@ def configure():
     embedding = Embeddings()
     VECTOR_DIM = embedding.embedding_size
 
-    
+
 @dataclass
 class Document:
     content: str
@@ -43,16 +46,16 @@ class Document:
 class Storage:
     """Handles storage operations for kcli."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         global DB_PATH
         global INDEX_PATH
         global VECTOR_DIM
         if not DB_PATH:
             configure()
-        
+
         self.db_path = DB_PATH
         self.index_path = INDEX_PATH
-        
+
         # Initialize SQLite connection
         self.db = sqlite3.connect(self.db_path)
         self._create_table()
@@ -176,10 +179,10 @@ class Storage:
             return self._hnsw_search(query, limit, similarity_threshold)
         else:
             return self._brut_force_search(query, limit, similarity_threshold)
-        
+
     def _hnsw_search(self, query: str, limit: int = 10, similarity_threshold = None) -> List[Document]:
         query_embedding = self.embeddings.create_embeddings(query)
-        k = max(1,min(limit,self.index.element_count -1))
+        max(1,min(limit,self.index.element_count -1))
         # Search in hnswlib index
         try:
             labels, distances = self.index.knn_query(
@@ -225,7 +228,7 @@ class Storage:
         ]
 
     def close(self):
-        """Close database connection"""
+        """Close database connection."""
         self.db.close()
 
     def __enter__(self):
@@ -238,4 +241,4 @@ class Storage:
 
 if __name__ == "__main__":
     storage = Storage()
-    
+

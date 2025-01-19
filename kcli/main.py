@@ -1,19 +1,19 @@
 """Core logic for kcli."""
+import asyncio
 import os
 from datetime import datetime
-from kcli.embeddings import embeddings
-from kcli.storage import Storage, Document
+
 from kcli.crawler import process_url
-import asyncio
-import logging
+from kcli.embeddings import embeddings
 from kcli.log import console
+from kcli.storage import Document, Storage
 
 storage = Storage()
 
 def add_file(file_path: str) -> Document:
     """Add a local file to the knowledge base."""
     abs_path = os.path.abspath(file_path)
-    with open(abs_path, 'r') as f:
+    with open(abs_path) as f:
         content = f.read()
     embedding = embeddings.create_embeddings(content)
     doc = Document(

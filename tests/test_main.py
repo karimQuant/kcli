@@ -2,12 +2,12 @@ import os
 import tempfile
 from datetime import datetime
 from unittest.mock import patch
-import pytest
+
 import numpy as np
 
 
 def test_add_file():
-    from kcli.main import add_file, Document
+    from kcli.main import Document, add_file
     from kcli.storage import Storage
     """Tests the add_file function."""
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file:
@@ -30,7 +30,7 @@ def test_add_file():
 
 def test_search_knowledge_base():
     """Tests the search_knowledge_base function."""
-    from kcli.main import search_knowledge_base, add_file
+    from kcli.main import add_file, search_knowledge_base
     # Create temporary files
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file1:
         tmp_file1.write("This is the first test document. It contains some keywords.")
@@ -68,8 +68,8 @@ def test_search_knowledge_base():
 
 def test_crawl_web_content():
     from kcli.main import crawl_web_content
-    from kcli.storage import Storage,Document
-    
+    from kcli.storage import Document, Storage
+
     """Tests the crawl_web_content function."""
     with patch("kcli.main.process_url") as mock_process_url:
         storage = Storage()
@@ -83,11 +83,11 @@ def test_crawl_web_content():
         )
         crawl_web_content("https://example.com")
         mock_process_url.assert_called_once_with("https://example.com")
-        
+
         results = storage.query("SELECT * FROM documents WHERE url = 'https://example.com'")
         assert len(results) == 1
         assert results[0].content == "test content"
         assert results[0].title == "Test Title"
         assert results[0].url == "https://example.com"
-        assert (results[0].embedding == np.ones(storage.embeddings.embedding_size)).all() 
+        assert (results[0].embedding == np.ones(storage.embeddings.embedding_size)).all()
         assert results[0].meta["source"] == "web"

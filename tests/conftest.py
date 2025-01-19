@@ -1,11 +1,12 @@
 import os
 import shutil
-import pytest
-import numpy as np
 from unittest.mock import patch
-from kcli import storage
-import tempfile
+
+import numpy as np
+import pytest
+
 import kcli.main as main
+from kcli import storage
 
 TEST_DIR = ".test_kcli"
 
@@ -16,17 +17,17 @@ def override_paths(request):
     test_id = request.node.nodeid.replace("/", "_").replace(":", "_")
     test_dir = os.path.join(TEST_DIR, test_id)
     os.makedirs(test_dir, exist_ok=True)
-    
+
     # Set environment variables for this test
     os.environ["KCLI_TEST_MODE"] = "True"
     os.environ["KCLI_DB_PATH"] = os.path.join(test_dir, "test.db")
     os.environ["KCLI_INDEX_PATH"] = os.path.join(test_dir, "test.index")
-    
+
     # Configure storage with new paths
     storage.configure()
     main.storage = storage.Storage()
     yield
-    
+
     # Cleanup after test
     if os.path.exists(test_dir):
         shutil.rmtree(test_dir)

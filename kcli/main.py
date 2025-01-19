@@ -39,10 +39,12 @@ def search_knowledge_base(
     )
     if not results:
         return None
-    output = ""    
-    for doc in results:
+    output = ""
+    for i, doc in enumerate(results):
         output += f"## {doc.title} ({doc.url})\n\n" if doc.title else ""
-        output += f"{doc.content}\n\n---\n\n" if doc.content else ""
+        output += f"{doc.content}\n\n" if doc.content else ""
+        if i < len(results) - 1:
+            output += "---\n\n"
     console.log(f"Search query: {query}, results: {len(results)}")
     return output
 

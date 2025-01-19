@@ -109,6 +109,7 @@ class Storage:
                     meta=json.loads(row[6]) if row[6] else {},
                 )
             )
+
     def get_document_by_id(self: "Storage", doc_id: int) -> Optional[Document]:
         """Retrieve a document by its ID."""
         cursor = self.db.cursor()
@@ -181,7 +182,9 @@ class Storage:
         query_embedding = self.embeddings.create_embeddings(query)
         # Fetch all documents from SQLite
         cursor = self.db.cursor()
-        cursor.execute("SELECT id, content, url, title, created_at, embedding, meta FROM documents")
+        cursor.execute(
+            "SELECT id, content, url, title, created_at, embedding, meta FROM documents"
+        )
         rows = cursor.fetchall()
 
         # Calculate cosine similarity for each document
@@ -300,6 +303,7 @@ class Storage:
             doc (Document): Document object to be stored in the database. Must contain
                 content and metadata fields.
         """
+
     def __enter__(self: "Storage") -> "Storage":
         """Enter the context manager."""
         return self

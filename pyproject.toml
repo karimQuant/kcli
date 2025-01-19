@@ -38,9 +38,25 @@ filterwarnings = [
 ]
 
 [tool.ruff]
-select = ["E", "F", "I", "N"]
-ignore = []
-line-length = 88
+line-length = 100
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "C",   # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "D",   # pydocstyle
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "YTT", # flake8-2020
+    "ANN", # flake8-annotations
+    "ASYNC", # flake8-async
+    "S", # flake8-bandit
+    "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
+    "ERA", # eradicate
+]
 
 [build-system]
 requires = ["poetry-core"]

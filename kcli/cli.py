@@ -39,7 +39,7 @@ def search(query: str) -> None:
 @click.argument(
     "file_path", type=click.Path(exists=True, file_okay=True, dir_okay=False)
 )
-def add(file_path):
+def add(file_path: str) -> None:
     """Add a local file to the knowledge base."""
     console.log(f"Adding file: {file_path}")
     add_file(file_path)

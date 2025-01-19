@@ -271,9 +271,9 @@ class Storage:
 
         Args:
         ----
-            exc_type: The type of the exception that was raised
-            exc_val: The instance of the exception that was raised
-            exc_tb: The traceback of the exception that was raised
+            exc_type: The type of the exception that was raised, if any
+            exc_val: The instance of the exception that was raised, if any
+            exc_tb: The traceback of the exception that was raised, if any
         """
         """Close database connection and save index."""
         self.close()

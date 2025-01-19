@@ -12,7 +12,7 @@ TEST_DIR = ".test_kcli"
 
 
 @pytest.fixture(autouse=True)
-def override_paths(request) -> None:
+def override_paths(request: pytest.FixtureRequest) -> None:
     """Overrides the DB_PATH and INDEX_PATH to use a unique test directory for each test."""
     # Create a unique test directory for this test
     test_id = request.node.nodeid.replace("/", "_").replace(":", "_")

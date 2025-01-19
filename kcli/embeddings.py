@@ -9,7 +9,7 @@ from litellm import embedding
 class Embeddings:
     """Handles text-to-vector conversions using LiteLLM."""
 
-    def __init__(self, ) -> None:
+    def __init__(self) -> None:
         """Initialize the embedding model."""
         self.model_name = os.environ.get(
             "KCLI_EMBEDDING_MODEL", "text-embedding-ada-002"
@@ -34,12 +34,11 @@ class Embeddings:
         self,
         text: str,
         chunk_size: int = 1000,
-        overlap: int = 200
+        overlap: int = 200,
     ) -> List[str]:
         """Split text into overlapping chunks.
 
         Args:
-        ----
             text: Text to split into chunks
             chunk_size: Maximum size of each chunk in characters
             overlap: Number of characters to overlap between chunks
@@ -75,7 +74,6 @@ class Embeddings:
         """Generate embeddings for a list of texts, with chunking.
 
         Args:
-        ----
             texts: List of texts to embed
             overlap: Number of characters to overlap between chunks
 

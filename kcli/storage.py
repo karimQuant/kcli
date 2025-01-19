@@ -64,7 +64,7 @@ class Document:
 class Storage:
     """Handles storage operations for kcli."""
 
-    def __init__(self, ) -> None:
+    def __init__(self) -> None:
         """Initialize the storage."""
         global DB_PATH
         global INDEX_PATH
@@ -86,7 +86,7 @@ class Storage:
             self.index.init_index(max_elements=10000, ef_construction=200, M=16)
         self.embeddings = Embeddings()
 
-    def _create_table(self):
+    def _create_table(self) -> None:
         self.db.execute(
             """
             CREATE TABLE IF NOT EXISTS documents (
@@ -119,7 +119,7 @@ class Storage:
             )
         return docs
 
-    def add(self, doc: Document):
+    def add(self, doc: Document) -> None:
         # First add to SQLite
         cursor = self.db.cursor()
         cursor.execute("SELECT id FROM documents WHERE content = ?", (doc.content,))
@@ -259,14 +259,14 @@ class Storage:
             for row in rows
         ]
 
-    def close(self):
+    def close(self) -> None:
         """Close database connection."""
         self.db.close()
 
-    def __enter__(self):
+    def __enter__(self) -> "Storage":
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type: type, exc_val: Exception, exc_tb: str) -> None:
         self.close()
         if hasattr(self, "index"):
             self.index.save_index(self.index_path)

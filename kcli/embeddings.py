@@ -39,6 +39,7 @@ class Embeddings:
         """Split text into overlapping chunks.
 
         Args:
+        ----
             text: Text to split into chunks
             chunk_size: Maximum size of each chunk in characters
             overlap: Number of characters to overlap between chunks
@@ -75,6 +76,7 @@ class Embeddings:
         """Generate embeddings for a list of texts, with chunking.
 
         Args:
+        ----
             texts: List of texts to embed
             overlap: Number of characters to overlap between chunks
 

@@ -42,6 +42,7 @@ def configure() -> None:
 
 @dataclass
 class Document:
+    """Represents a document with its content and metadata."""
     content: str
     url: Optional[str]
     title: str
@@ -110,6 +111,11 @@ class Storage:
         return docs
 
     def add(self: "Storage", doc: Document) -> None:
+        """Add a document to the storage.
+        
+        Args:
+            doc: The document to add to storage.
+        """
         # First add to SQLite
         cursor = self.db.cursor()
         cursor.execute("SELECT id FROM documents WHERE content = ?", (doc.content,))
@@ -249,14 +255,23 @@ class Storage:
             for row in rows
         ]
 
-    def close(self) -> None:
+    def close(self: "Storage") -> None:
         """Close database connection."""
         self.db.close()
 
     def __enter__(self) -> "Storage":
         return self
 
-    def __exit__(self: "Storage", exc_type: type, exc_val: Exception, exc_tb: str) -> None:
+    def __exit__(
+        self: "Storage", exc_type: type, exc_val: Exception, exc_tb: str
+    ) -> None:
+        """Exit the context manager, closing connections.
+
+        Args:
+            exc_type: The type of the exception that was raised
+            exc_val: The instance of the exception that was raised
+            exc_tb: The traceback of the exception that was raised
+        """
         """Close database connection and save index."""
         self.close()
         if hasattr(self, "index"):

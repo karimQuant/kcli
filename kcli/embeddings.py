@@ -23,7 +23,7 @@ class Embeddings:
                 f"Embedding model '{self.model_name}' is not available: {str(e)}"
             ) from e
 
-    def create_embeddings(self, text: str) -> np.ndarray:
+    def create_embeddings(self: "Embeddings", text: str) -> np.ndarray:
         """Generate embeddings for a single text."""
         if len(text) > self.chunk_size:
             return self.batch_embed([text])[0]
@@ -40,9 +40,9 @@ class Embeddings:
 
         Args:
         ----
-            text: Text to split into chunks.
-            chunk_size: Maximum size of each chunk in characters.
-            overlap: Number of characters to overlap between chunks.
+            text: The input text to be split into chunks.
+            chunk_size: The maximum size of each chunk in characters.
+            overlap: The number of characters to overlap between chunks.
 
         Returns:
         -------
@@ -76,8 +76,8 @@ class Embeddings:
 
         Args:
         ----
-            texts: List of texts to embed.
-            overlap: Number of characters to overlap between chunks.
+            texts: The list of texts to generate embeddings for.
+            overlap: The number of characters to overlap between chunks.
 
         Returns:
         -------

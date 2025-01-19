@@ -45,7 +45,7 @@ def search_knowledge_base(
     return output
 
 
-def crawl_web_content(url: str):
+def crawl_web_content(url: str) -> None:
     """Crawl and add web content to knowledge base."""
     doc = asyncio.run(process_url(url))
     if doc:

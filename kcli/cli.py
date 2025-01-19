@@ -46,7 +46,7 @@ def add(file_path: str) -> None:
 
 
 @main.command()
-def stats():
+def stats() -> None:
     """Display knowledge base statistics."""
     table = Table(title="Knowledge Base Statistics")
     table.add_column("Metric")

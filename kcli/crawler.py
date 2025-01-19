@@ -1,3 +1,4 @@
+"""Crawler module for kcli."""
 from datetime import datetime
 from typing import Optional
 
@@ -9,7 +10,7 @@ from kcli.storage import Document
 
 
 async def process_url(url: str) -> Optional[Document]:
-    """Processes a URL using crawl4ai, fetches content, converts to Markdown, and returns a Document."""
+    """Process a URL using crawl4ai, fetches content, converts to Markdown, and returns a Document."""
     browser_config = BrowserConfig(
         headless=True,
         verbose=False,
@@ -25,7 +26,7 @@ async def process_url(url: str) -> Optional[Document]:
             )
             if not result or not result.markdown:
                 console.log(
-                    f"Failed to crawl or extract content from {url}",
+                    f"Failed to crawl or extract content from {url}"
                 )
                 return None
             embedding = embeddings.create_embeddings(result.markdown)

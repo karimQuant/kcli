@@ -52,7 +52,7 @@ def search_knowledge_base(
     for _, doc in enumerate(results):
         table_result.add_row(
             doc.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            doc.id,
+            str(doc.id),
             doc.title,
             doc.content[:50],
         )

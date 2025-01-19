@@ -112,9 +112,10 @@ class Storage:
 
     def add(self: "Storage", doc: Document) -> None:
         """Add a document to the storage.
-        
+
         Args:
-            doc: The document to add to storage.
+        ----
+            doc: The document to add to storage
         """
         # First add to SQLite
         cursor = self.db.cursor()
@@ -208,7 +209,7 @@ class Storage:
             return self._brut_force_search(query, limit, similarity_threshold)
 
     def _hnsw_search(
-        self, query: str, limit: int = 10, similarity_threshold: Optional[float] = None
+        self: "Storage", query: str, limit: int = 10, similarity_threshold: Optional[float] = None
     ) -> List[Document]:
         query_embedding = self.embeddings.create_embeddings(query)
         max(1, min(limit, self.index.element_count - 1))
@@ -259,7 +260,8 @@ class Storage:
         """Close database connection."""
         self.db.close()
 
-    def __enter__(self) -> "Storage":
+    def __enter__(self: "Storage") -> "Storage":
+        """Enter the context manager."""
         return self
 
     def __exit__(
@@ -268,6 +270,7 @@ class Storage:
         """Exit the context manager, closing connections.
 
         Args:
+        ----
             exc_type: The type of the exception that was raised
             exc_val: The instance of the exception that was raised
             exc_tb: The traceback of the exception that was raised
